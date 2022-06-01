@@ -21,9 +21,6 @@ public:
     
     bool isUnique(string w) {
         string a=abbr(w);
-        //cout << w <<":"<< se.count(w) <<":"<< m[a]<<endl;
-        //if(se.count(w)==0)
-        //    return true;
         if(m.count(a)==0 or m[a]==w)
             return true;
         return false;        
