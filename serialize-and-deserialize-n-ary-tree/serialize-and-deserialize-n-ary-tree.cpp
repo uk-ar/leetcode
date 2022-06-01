@@ -62,7 +62,7 @@ public:
         if(data=="")
             return nullptr;
         N=data.size();
-        cout << data << endl;
+        //cout << data << endl;
         int i=0;
         return dfs(data,i);
     }
