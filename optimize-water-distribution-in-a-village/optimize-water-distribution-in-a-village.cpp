@@ -35,7 +35,7 @@ public:
         for(auto e:v){
             if(e.size()==2){
                 int r=root(e[1]);
-                cout << e[1] << "("<<r<<endl;
+                //cout << e[1] << "("<<r<<endl;
                 if(w[r])continue;                
                 ans+=e[0];
                 w[r]=true;
@@ -50,9 +50,9 @@ public:
                     w[r0]=true;
                 unite(r0,r1);
             }
-            for(auto t:e)
+            /*for(auto t:e)
                 cout << t <<" ";
-            cout <<":"<<ans <<endl;
+            cout <<":"<<ans <<endl;*/
         }
         return ans;
     }
