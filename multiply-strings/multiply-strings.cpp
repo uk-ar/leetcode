@@ -17,7 +17,7 @@ public:
         int c=0;
         for(int i=0;i<N1+N2;i++){
             c+=ans[i];
-            cout << i<<":"<<c%10<<":"<<c/10<<endl;
+            //cout << i<<":"<<c%10<<":"<<c/10<<endl;
             ans[i]=c%10+'0';
             c/=10;
         }
