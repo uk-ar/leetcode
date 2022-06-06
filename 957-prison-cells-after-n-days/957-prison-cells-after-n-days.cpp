@@ -31,6 +31,7 @@ public:
             m2i[pre]=i;
             ans.push_back(pre);            
             pre=~((pre<<1)^(pre>>1));
+            //set head and tail to zero;0b0111_1110
             pre=pre&0x7e;
         }
         int l=i-m2i[pre];
