@@ -16,7 +16,7 @@ public:
         vector<string>ans;
         while(!q.empty()){
             ans.push_back(q.top().second);
-            cout << q.top().first << q.top().second <<endl;
+            //cout << q.top().first << q.top().second <<endl;
             q.pop();
         }
         reverse(ans.begin(),ans.end());
