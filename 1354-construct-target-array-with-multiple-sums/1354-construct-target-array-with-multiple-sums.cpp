@@ -1,28 +1,27 @@
 class Solution {
 public:
     bool isPossible(vector<int>& t) {
-        auto ma=max_element(t.begin(),t.end());
-        if((*ma)==1){
-            return true;
-        }
-        long acc=accumulate(t.begin(),t.end(),(long)0);
-        //cout<< *ma << ":"<<acc<<endl;
-        long d=acc-(*ma);
-        if(d==1)
-            return true;
-        if(d==0 or d>=*ma)
-            return false;
-        //cout << d <<":"<< acc << ":"<<t.size()<<endl;
-        //(*ma)=(*ma)%(d);
-        if(*ma<=d)
-            false;
-        (*ma)=(*ma)%(d);
-        cout << d <<":"<< acc << ":"<<(*ma)<<endl;
-        /*for(auto e:t)
-            cout << e <<" ";
-        cout<<endl;*/
-        if((*ma)<=0)
-            return false;
-        return isPossible(t);
+        priority_queue<int>q(t.begin(),t.end());
+        long sum=accumulate(t.begin(),t.end(),(long)0);
+        while(q.top()>0){
+            if(q.top()==1)
+                return true;
+            int n=q.top();q.pop();            
+            long d=sum-n;
+            cout <<"0:"<< n <<":"<<d<<":"<<sum<<endl;
+            if(d==0 or n-d<=0)
+                return false;
+            if(d==1)
+                return true;
+            int nex=n%d;
+            if(nex<=0)
+                return false;
+            q.push(nex);
+            //if(n<=0 or d==0)
+            //    return false;
+            sum=sum-(n-nex);
+            cout <<"1:"<< n <<":"<<d<<":"<<sum<<endl;
+        }        
+        return false;
     }
 };
