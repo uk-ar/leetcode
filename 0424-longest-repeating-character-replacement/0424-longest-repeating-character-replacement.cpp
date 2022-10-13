@@ -4,8 +4,7 @@ public:
         int r=0,l=0,n=s.size(),ans=0,m_count=0;
         vector<int>v(128);
         while(l<n){
-            if(r<n and r-l-m_count<=k){//A    
-                ans=max(ans,r-l);
+            if(r<n and r-l-m_count<=k){//A   
                 m_count=max(++v[s[r]],m_count);
                 r++;
             }else{
