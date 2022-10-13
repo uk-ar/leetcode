@@ -1,21 +1,19 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int r=0,l=0,n=s.size(),ans=0,m_count=0;
-        vector<int>v(128);
+        int n=s.size(),l=0,r=0,ans=0,max_count=0;
+        vector<int> v(128);
         while(l<n){
-            if(r-l-m_count<=k)
+            if(r-l-max_count<=k)
                 ans=max(ans,r-l);
-            if(r<n and r-l-m_count<=k){//A   
-                m_count=max(++v[s[r]],m_count);
+            if(r<n and r-l-max_count<=k){
+                max_count=max(max_count,++v[s[r]]);
                 r++;
             }else{
-                v[s[l]]--;
+                --v[s[l]];
                 l++;
             }
-            
         }
-        //cout<<endl;
         return ans;
     }
 };
