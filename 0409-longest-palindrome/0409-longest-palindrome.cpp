@@ -7,7 +7,7 @@ public:
         bool odd=false;
         int ans=0;
         for(int i=0;i<128;i++){
-            if(v[i]%2)
+            if(v[i]&1)
                 odd=true;
             ans+=(v[i]>>1)<<1;
         }
