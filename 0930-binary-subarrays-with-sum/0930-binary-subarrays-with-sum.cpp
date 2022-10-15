@@ -17,14 +17,14 @@ public:
         }
         //if(n.back()==1)
         v.push_back(c);//end with 0
-        for(auto e:v){
+        /*for(auto e:v){
             cout << e << " ";
-        }
+        }*/
         //0123456
         //0111110
         //^   ^
         //  ^   ^
-        cout<<endl;
+        //cout<<endl;
         int ans=0;
         for(int i=0;i+g*2<v.size();i+=2){
             if(g==0){
