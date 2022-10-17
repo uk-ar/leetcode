@@ -13,9 +13,15 @@ public:
     ListNode* swapPairs(ListNode* head) {
         if(!head or !head->next)
             return head;
-        ListNode*first=head,*second=head->next;
-        first->next=swapPairs(head->next->next);
-        second->next=first;
-        return second;
+        ListNode dummy,*pre=&dummy,*cur=head;
+        while(cur and cur->next){
+            pre->next=cur->next;//d->2 1->4            
+            ListNode *next=cur->next->next;//3      
+            cur->next->next=cur;//2->1
+            cur->next=next;//important!
+            pre=cur;//1
+            cur=next;//3
+        }
+        return dummy.next;
     }
 };
