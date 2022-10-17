@@ -13,9 +13,9 @@ public:
     ListNode* swapPairs(ListNode* head) {
         if(!head or !head->next)
             return head;
-        ListNode*next=head->next->next,*cur=head->next,*pre=head;        
-        cur->next=pre;
-        pre->next=swapPairs(next);
-        return cur;
+        ListNode*first=head,*second=head->next;
+        first->next=swapPairs(head->next->next);
+        second->next=first;
+        return second;
     }
 };
