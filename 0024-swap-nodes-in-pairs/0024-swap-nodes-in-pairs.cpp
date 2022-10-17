@@ -15,10 +15,11 @@ public:
             return head;
         ListNode dummy,*pre=&dummy,*cur=head;
         while(cur and cur->next){
-            pre->next=cur->next;//d->2 1->4            
-            ListNode *next=cur->next->next;//3      
-            cur->next->next=cur;//2->1
-            cur->next=next;//important!
+            ListNode *first=cur,*second=cur->next,*next=cur->next->next;
+            pre->next=second;//d->2//d->2->1->4
+            second->next=first;//d->2->1//d->2->1->4->3
+            first->next=next;//d->2->1->3//d->2->1->4->3->N
+
             pre=cur;//1
             cur=next;//3
         }
