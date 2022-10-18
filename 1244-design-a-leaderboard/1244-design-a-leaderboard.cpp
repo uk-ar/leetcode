@@ -1,28 +1,31 @@
 class Leaderboard {
 public:
-    unordered_map<int,int>m;
+    unordered_map<int,int>scores;
+    map<int,int,greater<int>>n_players;//num of players for score
     Leaderboard() {
         
     }
     
-    void addScore(int id, int s) {
-        m[id]+=s;
+    void addScore(int id, int score) {
+        n_players[scores[id]]--;
+        scores[id]+=score;
+        n_players[scores[id]]++;
     }
     
     int top(int K) {
-        K--;
-        vector<pair<int,int>>v(m.begin(),m.end());
-        nth_element(v.begin(),v.begin()+K,v.end(),[](auto l,auto r){
-            return l.second > r.second;
-        });
         int ans=0;
-        for(int i=0;i<=K;i++)
-            ans+=v[i].second;
+        for(auto &[v,n]:n_players){
+            int a=min(n,K);
+            ans+=a*v;
+            K-=a;
+            if(K==0)
+                break;
+        }
         return ans;
     }
     
     void reset(int id) {
-        m[id]=0;
+        addScore(id,-scores[id]);
     }
 };
 
