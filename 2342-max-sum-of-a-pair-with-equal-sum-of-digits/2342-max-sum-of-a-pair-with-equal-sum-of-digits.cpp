@@ -10,13 +10,9 @@ public:
                 v/=10;
             }
             //cout << t <<":"<< e <<endl;
-            if(m.count(t)){
+            if(m.count(t))
                 ans=max(ans,m[t]+e);
-                if(m[t]<e)
-                    m[t]=e;
-            }else{
-                m[t]=e;
-            }            
+            m[t]=max(m[t],e);
         }
         return ans;
     }
