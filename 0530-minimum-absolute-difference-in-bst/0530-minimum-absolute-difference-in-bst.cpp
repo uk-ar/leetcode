@@ -23,7 +23,7 @@ public:
             }else{                
                 root=st.back();st.pop_back();
                 if(pre){
-                    cout << pre->val <<":"<< root->val <<endl;
+                    //cout << pre->val <<":"<< root->val <<endl;
                     ans=min(ans,root->val-pre->val);
                 }
                 pre=root;
