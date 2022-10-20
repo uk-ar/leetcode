@@ -10,38 +10,20 @@
  */
 class Solution {
 public:
-    ListNode* rev(ListNode*head){
-        ListNode*pre=nullptr;
-        while(head){
-            ListNode*next=head->next;
-            head->next=pre;
-            pre=head;
-            head=next;
-        }
-        return pre;
-    }
     ListNode* sortLinkedList(ListNode* head) {
-        if(!head)
-            return head;
-        ListNode dp,dn,*pos=&dp,*neg=&dn;
-        while(head){
-            ListNode *next=head->next;
-            head->next=nullptr;
-            if(head->val>=0){
-                pos->next=head;                
-                pos=pos->next;
+        ListNode*pre=head,*cur=head->next;
+        while(cur){
+            if(cur->val<0){
+                ListNode*next=cur->next;
+                pre->next=next;
+                cur->next=head;
+                head=cur;
+                cur=next;
             }else{
-                neg->next=head;
-                neg=neg->next;
+                pre=cur;
+                cur=cur->next;
             }
-            head=next;
         }
-        head=rev(dn.next);
-        if(dn.next){
-            dn.next->next=dp.next;
-        //rev(dn.next);
-            return head;
-        }
-        return dp.next;
+        return head;
     }
 };
