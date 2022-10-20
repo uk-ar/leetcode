@@ -15,9 +15,9 @@ public:
         while(cur){
             if(cur->val<0){
                 ListNode*next=cur->next;
-                pre->next=next;
                 cur->next=head;
                 head=cur;
+                pre->next=next;
                 cur=next;
             }else{
                 pre=cur;
