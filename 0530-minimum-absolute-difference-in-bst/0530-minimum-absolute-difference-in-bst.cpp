@@ -11,15 +11,25 @@
  */
 class Solution {
 public:
-    TreeNode*pre=nullptr;
     int getMinimumDifference(TreeNode* root) {
-        if(!root)
-            return INT_MAX;
-        int ans=getMinimumDifference(root->left);
-        if(pre){
-            ans=min(ans,root->val-pre->val);
+        TreeNode*pre=nullptr;
+        vector<TreeNode*>st;
+        int ans=INT_MAX;
+        while(!st.empty() or root){
+            if(root){
+                st.push_back(root);
+                //pre=root;
+                root=root->left;
+            }else{                
+                root=st.back();st.pop_back();
+                if(pre){
+                    cout << pre->val <<":"<< root->val <<endl;
+                    ans=min(ans,root->val-pre->val);
+                }
+                pre=root;
+                root=root->right;
+            }
         }
-        pre=root;
-        return min(ans,getMinimumDifference(root->right));
+        return ans;
     }
 };
