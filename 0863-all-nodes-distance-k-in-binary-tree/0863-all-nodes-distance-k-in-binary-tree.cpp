@@ -9,32 +9,45 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*,int>m;
-    int find(TreeNode*root,TreeNode*target){
-        if(!root)
-            return INT_MAX;
-        if(root==target)
-            return m[root]=0;
-        int ans=find(root->left,target);
-        ans = min(ans,find(root->right,target));
-        if(ans==INT_MAX)
-            return ans;
-        return m[root]=ans+1;
-    }
     vector<int>ans;
-    void rec(TreeNode*root,int t,int k){
+    void getChild(TreeNode* root,int k) {
         if(!root)
             return;
-        if(m.count(root))
-            t=m[root];
-        if(t==k)
+        if(k==0)
             ans.push_back(root->val);
-        rec(root->left,t+1,k);
-        rec(root->right,t+1,k);
+        getChild(root->left,k-1);
+        getChild(root->right,k-1);
+    }
+    int getParent(TreeNode* root, TreeNode* target, int k) {
+        if(!root)
+            return -1;
+        if(root==target){
+            if(0==k)
+                ans.push_back(root->val);
+            getChild(root->left,k-1);
+            getChild(root->right,k-1);
+            return 1;
+        }     
+        int l=getParent(root->left,target,k);
+        if(l!=-1){
+            if(l==k)
+                ans.push_back(root->val);
+            l++;
+            getChild(root->right,k-l);
+            return l;
+        }
+        l=getParent(root->right,target,k);
+        if(l!=-1){
+            if(l==k)
+                ans.push_back(root->val);
+            l++;
+            getChild(root->left,k-l);
+            return l;
+        }
+        return -1;
     }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        find(root,target);
-        rec(root,INT_MAX,k);
+        getParent(root,target,k);
         return ans;
     }
 };
