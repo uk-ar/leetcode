@@ -22,11 +22,11 @@ public:
             /*for(auto &p:m)
                 cout << p.first <<":" << p.second <<" ";
             cout <<endl;*/
-            if(check(m)==0 and r-l<=mi){
+            if(c==0 and r-l<=mi){
                 mi=r-l;
                 ans=s.substr(l,r-l);
             }
-            if(r<N and check(m)>0){//
+            if(r<N and c>0){//
                 if(se.count(s[r]) and --m[s[r]]==0)
                     c--;
                 r++;
