@@ -1,13 +1,5 @@
 class Solution {
 public:
-    int check(unordered_map<char,int>&m){
-        int ans=0;
-        for(auto &[c,i]:m){
-            if(i>0)
-                ans++;
-        }
-        return ans;
-    }
     string minWindow(string s, string t) {
         unordered_map<char,int>m;
         unordered_set<char>se(t.begin(),t.end());
