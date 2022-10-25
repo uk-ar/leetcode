@@ -1,6 +1,26 @@
 class Solution {
 public:
+    int N;
+    unordered_map<int,unordered_map<int,unordered_map<bool,int>>>memo;
+    int dp(int k,vector<int>& p,int i,bool holding) {
+        if(i==N)
+            return 0;
+        if(memo[k][i].count(holding))
+            return memo[k][i][holding];
+        int ans=dp(k,p,i+1,holding);
+        //buy
+        if(!holding and k-1>=0)
+            ans=max(ans,dp(k-1,p,i+1,true)-p[i]);
+        //sell
+        if(holding)
+            ans=max(ans,dp(k,p,i+1,false)+p[i]);
+        return memo[k][i][holding]=ans;
+    }
     int maxProfit(int k, vector<int>& p) {
+        N=p.size();
+        return dp(k,p,0,false);
+    }
+    int maxProfit_(int k, vector<int>& p) {
         int N=p.size();
         vector<vector<vector<int>>>dp(N+1,vector<vector<int>>(k+1,vector<int>(2,INT_MIN)));
         dp[0][k][0]=0;
@@ -17,19 +37,8 @@ public:
                     dp[i+1][j-1][1]=max(dp[i+1][j-1][1],dp[i][j][0]-p[i]);
                 ans=max(ans,dp[i+1][j][1]);
                 ans=max(ans,dp[i+1][j][0]);
-                /*dp[i+1][j][true]=dp[i][j][true];
-                if(j+1<k and dp[i][j+1][false]!=INT_MIN)
-                    dp[i+1][j][true]=max(dp[i+1][j][true],dp[i][j+1][false]-p[i]);
-                dp[i+1][j][false]=dp[i][j][false];
-                dp[i+1][j][false]=max(dp[i+1][j][false],dp[i+1][j][true]+p[i]);*/
             }
         }
-        //int ans=0;
-        /*for(int j=0;j<=k;j++){
-            ans=max(ans,dp[N][j][false]);
-            ans=max(ans,dp[N][j][true]);
-        }*/
         return ans;
-        //return dp[N][0][false];
     }
 };
