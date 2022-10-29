@@ -23,15 +23,12 @@ public:
         ListNode*l=sortList(head),*r=sortList(s),d;
         p=&d;
         while(l or r){
-            if(!l){// or r->val<l->val){
+            if(!l or (r and r->val<l->val)){// or r->val<l->val){
                 p->next=r;
                 r=r->next;
-            }else if(!r or l->val<r->val){
+            }else if(!r or l->val<=r->val){
                 p->next=l;
                 l=l->next;
-            }else{
-                p->next=r;
-                r=r->next;
             }
             p=p->next;
         }
