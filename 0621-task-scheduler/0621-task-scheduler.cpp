@@ -1,34 +1,19 @@
 class Solution {
 public:
     int leastInterval(vector<char>& t, int n) {
+        int f_max=0,N=t.size();
+        vector<int>v(128);
         if(n==0)
-            return t.size();
-        int N=t.size();
-        unordered_map<int,int>m;
+            return N;
         for(int i=0;i<N;i++)
-            m[t[i]]++;
-        priority_queue<int>q;
-        for(auto [_,f]:m)
-            q.push(f);
-        int ans=0;
-        while(!q.empty()){
-            priority_queue<int>t;
-            for(int i=0;i<n+1;i++){
-                if(!q.empty()){
-                    //cout << i << ":" << ans <<":" << q.top() <<endl;
-                    if(q.top()!=1)
-                        t.push(q.top()-1);
-                    q.pop();    
-                }else if(t.empty()){
-                    return ans;
-                }
-                ans++;                
-            }
-            while(!t.empty()){
-                q.push(t.top());
-                t.pop();
-            }
+            f_max=max(f_max,++v[t[i]]);//3
+        sort(v.begin(),v.end(),greater());//3,3
+        int idle=(f_max-1)*n;//2*2->4
+        for(int i=1;i<26;i++){
+            idle-=min(v[i],f_max-1);
+            //cout << i << ":" << v[i] << ":"<<idle <<endl;
         }
-        return ans;
+        idle=max(idle,0);
+        return N+idle;
     }
 };
