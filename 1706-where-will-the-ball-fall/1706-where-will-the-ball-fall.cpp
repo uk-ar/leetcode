@@ -15,11 +15,11 @@ public:
             }
             //cout << endl;
         }
-        for(auto &e:v){
+        /*for(auto &e:v){
             for(auto f:e)
                 cout << f <<" ";
             cout<<endl;
-        }
+        }*/
         vector<int>ans(W,-1);
         for(int i=0;i<W;i++)
             if(v[H][i]!=-1)
