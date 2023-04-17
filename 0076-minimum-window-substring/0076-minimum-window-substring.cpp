@@ -1,35 +1,32 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
+       unordered_set<char>se(t.begin(),t.end());
         unordered_map<char,int>m;
-        unordered_set<char>se(t.begin(),t.end());
-        int N=s.size(),c=0;
-        for(int i=0;i<t.size();i++)
-            if(++m[t[i]]==1)
-                c++;
-        int l=0,r=0,mi=INT_MAX;
-        string ans;
+        for(char c:t)
+            m[c]++;
+        int l=0,r=0,N=s.size(),cnt=se.size();
+        vector<int> ans={-1,-1};
         while(l<N){
-            //cout << l << ":" << r <<" "<<m.size()<<":"<<mi<<ans<<endl;
-            /*for(auto &p:m)
-                cout << p.first <<":" << p.second <<" ";
-            cout <<endl;*/
-            if(c==0 and r-l<=mi){
-                mi=r-l;
-                ans=s.substr(l,r-l);
-            }
-            if(r<N and c>0){//
+            //cout << l << ":"<< r<<cnt<<endl;
+            if(r<N and cnt>0){
                 if(se.count(s[r]) and --m[s[r]]==0)
-                    c--;
+                    cnt--;
                 r++;
             }else{
                 if(se.count(s[l]) and ++m[s[l]]==1)
-                    c++;
+                    cnt++;
                 l++;
             }
+            if(cnt==0){
+                //cout << "0:"<<l<<":"<<r<<endl;
+                if(ans[0]==-1 or ans[1]-ans[0]>r-l){
+                    ans={l,r};
+                }
+            }
         }
-        if(mi==INT_MAX)
+        if(ans[0]==-1)
             return "";
-        return ans;
+        return s.substr(ans[0],ans[1]-ans[0]);
     }
 };
