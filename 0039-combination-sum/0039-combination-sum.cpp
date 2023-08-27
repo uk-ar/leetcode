@@ -1,25 +1,25 @@
 class Solution {
 public:
-    void backtrack(vector<int>& can, int t,int i,vector<int>&p,vector<vector<int>>&ans) {
-        if(t==0){
-            ans.push_back(p);
+    void backtrack(vector<int>& cand, int target, int s, vector<vector<int>>&ans,vector<int>&cur) {
+        if(target <= 0){
+            if(target == 0){
+                ans.push_back(cur);
+            }
             return;
         }
-        if(can.size()==i)
-            return;
-        int j;
-        for(j=0;0<=t;j++){//5
-            backtrack(can,t,i+1,p,ans);
-            p.push_back(can[i]);
-            t-=can[i];
+        int N = cand.size();
+        for(int i = s; i < N ;i++){
+            cur.push_back(cand[i]);
+            backtrack(cand, target-cand[i], i, ans, cur);
+            cur.pop_back();
         }
-        for(int k=0;k<j;k++)
-            p.pop_back();
     }
-    vector<vector<int>> combinationSum(vector<int>& can, int t) {
-        vector<vector<int>> ans;
-        vector<int> p;
-        backtrack(can,t,0,p,ans);
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        // backtrack O(2**N)
+        sort(candidates.begin(),candidates.end());
+        vector<vector<int>>ans;
+        vector<int>cur;
+        backtrack(candidates,target,0,ans,cur);
         return ans;
     }
 };
