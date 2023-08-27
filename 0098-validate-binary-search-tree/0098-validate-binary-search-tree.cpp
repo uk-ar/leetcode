@@ -13,6 +13,7 @@ class Solution {
 public:
     TreeNode *prev = nullptr;
     bool isValidBST(TreeNode* root) {
+        // inorder traversal
         if(!root)
             return true;
         bool l = isValidBST(root->left);
