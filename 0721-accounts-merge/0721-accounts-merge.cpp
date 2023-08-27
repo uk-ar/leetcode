@@ -1,40 +1,44 @@
 class Solution {
 public:
-    unordered_map<string,string>parent;
-    string root(string a){
+    unordered_map<int,int>parent;
+    int root(int a){
         if(!parent.count(a))
             return a;
         return parent[a] = root(parent[a]);
     }
-    bool unite(string a, string b){
-        string ra = root(a), rb = root(b);
-        if(ra == rb)
+    bool unite(int a, int b){
+        int ra = root(a), rb = root(b);
+        if(ra == rb){
             return false;
-        if(ra < rb)
+        }
+        if(ra < rb){
             parent[rb] = ra;
-        else
+        }else{
             parent[ra] = rb;
+        }
         return true;
     }
-    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        // union find O(n) O(n)
-        unordered_map<string,int>indexes;
-        for(int i = 0; i < accounts.size(); i++){
-            auto &account = accounts[i];
-            for(int j = 1; j+1 < account.size(); j++){
-                unite(account[j],account[j+1]);
-                indexes[account[j]] = i;
-            }            
-            indexes[account.back()] = i;
+    vector<vector<string>> accountsMerge(vector<vector<string>>& acc) {
+        unordered_map<string,int>idx;
+        int N = acc.size();
+        for(int i = 0; i < N; i++){
+            for(int j = 1; j < acc[i].size(); j++ ){
+                string email = acc[i][j];
+                if(idx.count(email) == 0){
+                    idx[email] = i;
+                }else{
+                    unite(idx[email],i);
+                }
+            }
         }
-        unordered_map<string,vector<string>>groups;
-        for(auto &[email,_] : indexes){
-            groups[root(email)].push_back(email);
+        unordered_map<int,vector<string>>group;
+        for(auto &[email,i] : idx){
+            group[root(i)].push_back(email);
         }
         vector<vector<string>>ans;
-        for(auto &[email,v] : groups){
-            vector<string>t = {accounts[indexes[email]][0]};
-            sort(v.begin(),v.end());
+        for(auto &[i,v] : group){
+            vector<string>t = {acc[i][0]};
+            sort(v.begin(), v.end());
             t.insert(t.end(),v.begin(),v.end());
             ans.push_back(t);
         }
