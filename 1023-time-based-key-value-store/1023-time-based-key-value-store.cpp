@@ -12,8 +12,10 @@ public:
     // O(n log n)
     // binary search for get
     string get(string key, int timestamp) {
-        pair<int,string> p = make_pair(timestamp+1,"");
-        auto it = upper_bound(store[key].begin(),store[key].end(),p);
+        //pair<int,string> p = make_pair(timestamp+1,"");
+        auto it = upper_bound(store[key].begin(),store[key].end(),pair<int,string>(timestamp,""),[](auto l,auto r){
+            return l.first < r.first;
+        });
         if(it == store[key].begin())
             return "";//not found
         it--;
