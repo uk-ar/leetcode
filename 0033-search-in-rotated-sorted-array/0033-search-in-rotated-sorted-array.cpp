@@ -1,21 +1,26 @@
 class Solution {
 public:
-    int search(vector<int>& n, int t) {
-        int ok=0,N=n.size(),ng=N;
+    int search(vector<int>& nums, int target) {
+        int ok = 0, N = nums.size(), ng = N;
+        //. [1,2,0]
+        //ok     ^
+        //m.       ^
+        //ng       ^
         while(abs(ok-ng)>1){
-            int m=ok+(ng-ok)/2;
-            /*cout << ok <<":"<<m<<":"<<ng<<endl;
-            cout << (n[ok]<n[m] and (n[ok]<=t and t<n[m])) <<endl;
-            cout << (n[ok]>n[m] and (n[ok]<=t or  t<n[m])) <<endl;*/
-            if((n[ok]<n[m] and (n[ok]<=t and t<n[m])) or
-               (n[ok]>n[m] and (n[ok]<=t or  t<n[m]))){
-                ng=m;
+            int m = (ok+ng)/2;
+            cout << ok << ":"<<m<<":"<<ng<<endl;
+            if((nums[ok] < nums[m] && (target <  nums[ok] || nums[m] <= target)) ||
+               (nums[ok] > nums[m] && (target >= nums[m]  && target < nums[ok]))){ //second half
+                   ok = m;
             }else{
-                ok=m;
+                ng = m;
             }
-            
+            //0123456
+            //4567012
+            //.  ^^^
         }
-        if(n[ok]==t)
+        cout << ok <<endl;
+        if(nums[ok] == target)
             return ok;
         return -1;
     }
