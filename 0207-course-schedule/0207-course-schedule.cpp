@@ -1,33 +1,35 @@
 class Solution {
 public:
-    bool canFinish(int N, vector<vector<int>>& pre) {
-        vector<vector<int>>g(N);
-        vector<int>in(N);
-        for(auto v : pre){
-            in[v[1]]++;
-            g[v[0]].push_back(v[1]);            
-        }
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        vector<int>visit(n),in(n);//in degree
+        vector<vector<int>>g(n);
         // bfs
+        for(auto &v : pre){
+            g[v[0]].push_back(v[1]);
+            in[v[1]]++;
+        }
+        // find start
         deque<int>q;
-        for(int i = 0; i < N; i++){
-            if(in[i] == 0){
+        for(int i = 0; i < n; i++){
+            if(in[i]==0){
                 q.push_back(i);
             }
         }
-        vector<bool>visit(N);
-        while(q.size() > 0){
+        while(q.size()>0){
             int e = q.front();q.pop_front();
             visit[e] = true;
-            for(auto n : g[e]){
-                in[n]--;
-                if(in[n] == 0){
-                    q.push_back(n);
-                }
+            cout << e <<endl;
+            for(auto f : g[e]){
+                cout << e <<"->"<<f<<endl;
+                in[f]--;
+                if(!visit[f] && in[f] == 0)
+                    q.push_back(f);
             }
         }
-        for(int i = 0; i < N; i++){
-            if(!visit[i])
+        for(bool e : visit){
+            if(!e){
                 return false;
+            }
         }
         return true;
     }
