@@ -1,18 +1,20 @@
 class Solution {
 public:
-    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+    vector<vector<int>> insert(vector<vector<int>>& ins, vector<int>& newIn) {
+        ins.push_back({INT_MAX,INT_MAX});
+        int N = ins.size();
         vector<vector<int>>ans;
-        intervals.push_back({INT_MAX,INT_MAX});
-        vector<int>in = newInterval;
-        for(auto v:intervals){
-            if(v[1]<in[0]){
-                ans.push_back(v);
-            }else if(in[1]<v[0]){
+        for(auto in : ins){
+            if(newIn[1] < in[0]){
+                ans.push_back(newIn);
+                newIn = in;
+            }else if(in[1] < newIn[0]){
                 ans.push_back(in);
-                in = v;
-            }else{
-                in={min(in[0],v[0]),max(in[1],v[1])};
             }
+            else{
+                newIn = {min(in[0],newIn[0]),max(in[1],newIn[1])};
+            }
+            cout << newIn[0] <<":" << newIn[1] <<endl;
         }
         return ans;
     }
