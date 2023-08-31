@@ -1,45 +1,59 @@
 class Solution {
 public:
-    int calculate(string s) {
-        int i = 0;
-        string t="(";
-        for(char c : s)
-            if(c!=' ')
-                t.push_back(c);
-        t.push_back(')');
-        return exp(t,i);
-    }
-    int digit(string &s,int &i){
-        //cout << "dig" << i <<endl;
-        long ans = 0;
-        while(i < s.size() && isdigit(s[i])){
-            ans = ans * 10 + s[i++] - '0';
+    int N;
+    bool cousume(string &s,int &i,char c){
+        if(s[i] == c){
+            i++;
+            return true;
         }
-        return ans;        
+        return false;
     }
     int exp(string &s,int &i){
-        //cout << "exp" << i <<endl;
-        int sign = 1;
-        if(s[i]=='-'){
-            sign = -1;
-            i++;
+        int acc = mul(s,i);
+        while(i<N){
+            if(cousume(s,i,'+')){
+                acc += mul(s,i);
+            }else if(cousume(s,i,'-')){
+                acc -= mul(s,i);
+            }else{
+                return acc;
+            }
         }
-        if(s[i]=='('){
-            vector<int>v;
-            i++;
-            //cout << "(" <<endl;
-            while(i < s.size() && s[i]!=')'){
-                v.push_back(exp(s,i));
-            }           
-            //cout << ")" <<endl;
-            i++;
-            int ans = 0;
-            for(auto e : v)
-                ans += e;
-            return sign * ans;
+        return acc;
+    }
+    int mul(string &s,int &i){
+        int acc = primary(s,i);
+        while(i<N){
+            if(cousume(s,i,'*')){
+                acc *= primary(s,i);
+            }else if(cousume(s,i,'/')){
+                acc /= primary(s,i);
+            }else{
+                return acc;
+            }
         }
-        if(s[i]=='+')
-            i++;
-        return sign * digit(s,i);
+        return acc;
+    }
+    int primary(string &s,int &i){
+        if(cousume(s,i,'(')){
+            int ans = exp(s,i);
+            i++;//skip ')'
+            return ans;
+        }
+        int ans = 0;
+        while(i < N && isdigit(s[i])){
+            ans = ans * 10 - '0' + s[i++] ;
+        }
+        return ans;
+    }
+    
+    int calculate(string s0) {
+        int i = 0;
+        string s;
+        for(char c : s0)
+            if(c != ' ')
+                s += c;
+        N = s.size();
+        return exp(s,i);
     }
 };
