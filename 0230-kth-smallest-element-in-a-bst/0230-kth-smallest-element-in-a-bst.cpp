@@ -11,19 +11,18 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, int k,int &c) {
+    TreeNode*pre=nullptr;
+    int n = 1;
+    int kthSmallest(TreeNode* root, int k) {        
         if(!root)
-            return -1;        
-        int ans=dfs(root->left,k,c);
-        if(ans!=-1)
-            return ans;
-        if(c==k)
+            return -1;
+        int l = kthSmallest(root->left,k);
+        if(l>=0)
+            return l;
+        if(n == k)
             return root->val;
-        c++;
-        return dfs(root->right,k,c);
-    }
-    int kthSmallest(TreeNode* root, int k) {
-        int c=1;
-        return dfs(root,k,c);
+        n++;
+        int r = kthSmallest(root->right,k);
+        return r;
     }
 };
