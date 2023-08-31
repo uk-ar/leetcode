@@ -22,16 +22,17 @@ public:
             return {0};
         // remove leafs
         vector<int> last;
-        vector<bool> visited(n);
+        //vector<bool> visited(n);
         while(q.size()>0){            
             last.clear();
             int n = q.size();
             while(n--){
                 int e = q.front();q.pop_front();
-                visited[e] = false;
+                //visited[e] = false;
                 for(int f : t[e]){
                     indeg[f]--;
-                    if(!visited[f] && indeg[f]==1){
+                    //if(!visited[f] && indeg[f]==1){
+                    if(indeg[f]==1){
                         q.push_back(f);
                     }
                 }
