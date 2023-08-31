@@ -1,35 +1,44 @@
 class Solution {
 public:
-    vector<int> findMinHeightTrees(int n, vector<vector<int>>& ed) {
-        vector<vector<int>>G(n);
-        vector<int>IN(n);
-        for(auto &v:ed){
-            G[v[0]].push_back(v[1]);
-            G[v[1]].push_back(v[0]);
-            IN[v[0]]++;
-            IN[v[1]]++;
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        // bfs from leaf O(N)
+        // build tree
+        vector<vector<int>>t(n);
+        vector<int> indeg(n);
+        for(auto &e : edges){
+            t[e[0]].push_back(e[1]);
+            t[e[1]].push_back(e[0]);
+            indeg[e[0]]++;
+            indeg[e[1]]++;
+        }
+        // find leafs
+        deque<int>q;
+        for(int i = 0; i < n; i++){
+            if(indeg[i]==1){
+                q.push_back(i);
+            }
         }
         if(n==1)
             return {0};
-        deque<int>q;
-        for(int i=0;i<n;i++)
-            if(IN[i]==1)
-                q.push_back(i);
-        while(q.size()>0){
-            int n=q.size();
-            vector<int>ans;
+        // remove leafs
+        vector<int> last;
+        vector<bool> visited(n);
+        while(q.size()>0){            
+            last.clear();
+            int n = q.size();
             while(n--){
-                int e=q.front();q.pop_front();                
-                ans.push_back(e);
-                for(auto i:G[e]){
-                    if(--IN[i]==1){
-                        q.push_back(i);
+                int e = q.front();q.pop_front();
+                visited[e] = false;
+                for(int f : t[e]){
+                    indeg[f]--;
+                    if(!visited[f] && indeg[f]==1){
+                        q.push_back(f);
                     }
                 }
+                last.push_back(e);
             }
-            if(q.size()==0)
-                return ans;
-        }
-        return {};
+        }       
+        // return remain elements in last iteration
+        return last;
     }
 };
