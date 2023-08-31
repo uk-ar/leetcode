@@ -1,55 +1,60 @@
 class LRUCache {
 public:
     struct Node{
-        Node*prev=nullptr,*next=nullptr;
-        int key,value;
-        Node(int k,int v){
-            key=k;
-            value=v;
+        int val,key;
+        Node *prev,*next;  
+        Node(int v,int k){
+            key = k;
+            val = v;
+            //prev = p;
+            //next = n;
         }
-    };  
-    Node *root;
-    int cap;
+    };
+    Node *head;
+    int cap,size=0;
     LRUCache(int capacity) {
-        root=new Node(-1,-1);
-        root->next=root;
-        root->prev=root;
-        cap=capacity;
-    }
-    void add(Node*node){
-        Node*next=root->next;
-        node->next=next;
-        node->prev=root;
-        root->next=node;
-        next->prev=node;
-    }
-    void del(Node*node){
-        Node*prev=node->prev,*next=node->next;
-        prev->next=next;
-        next->prev=prev;
+        cap = capacity;
+        head = new Node(-1,-1);
+        head->next = head;
+        head->prev = head;
     }
     unordered_map<int,Node*>m;
-    int get(int key) {
-        if(m.count(key)==0)
-            return -1;
-        del(m[key]);
-        add(m[key]);
-        return m[key]->value;
+    void del(Node*n){
+        n->next->prev = n->prev;
+        n->prev->next = n->next;
     }
-    int size=0;
+    void add(Node*n){
+        Node*next = head->next;
+        head->next = n;
+        n->prev = head;
+        next->prev = n;
+        n->next = next;
+    }
+    int get(int key) {
+        if(!m.count(key)){
+            return -1;
+        }
+        Node* n = m[key];
+        del(n);
+        add(n);
+        return n->val;
+    }
+    
     void put(int key, int value) {
         if(m.count(key)){
-            m[key]->value=value;
-            del(m[key]);
+            Node* n = m[key];
+            n->val = value;
+            get(key);
         }else{
-            m[key]=new Node(key,value);
+            Node *n = new Node(value,key);
+            add(n);
+            m[key] = n;
             size++;
-        }
-        add(m[key]);
-        if(size>cap){
-            size--;
-            m.erase(root->prev->key);
-            del(root->prev);
+            if(size>cap){
+                size--;
+                m.erase(head->prev->key);
+                del(head->prev);                
+            }
         }
     }
 };
